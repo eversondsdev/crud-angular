@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { FuncionarioListComponent } from './components/funcionario-list/funcionario-list.component';
-import { AddFuncionarioComponent } from './components/add-funcionario/add-funcionario.component';
+import { ListComponent } from './components/list/list.component';
+import { ButtonEditComponent } from './components/button-edit/button-edit.component';
+import { ButtonDeleteComponent } from './components/button-delete/button-delete.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
     RouterOutlet,
-    FuncionarioListComponent,
-    FuncionarioListComponent,
-
-    AddFuncionarioComponent,
+    ListComponent,
+    ButtonEditComponent,
+    ButtonDeleteComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
