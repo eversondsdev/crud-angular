@@ -1,0 +1,18 @@
+<main>
+    <app-default-layout title="Adicionar Funcionário">
+        <p-card header="Novo" class="card">
+            <form class="form">
+                <label for="text">Nome</label>
+                <input type="text" pInputText formControlName="text" />
+                <label for="number">Telefone</label>
+                <p-inputMask mask="(99)9 9999-9999" formControlName="value" placeholder="99-999999" />
+                <label for="date">Data de Nascimento</label>
+                <p-calendar formControlName="date" type="date" dateFormat="dd.mm.yy" />
+                <label for="number">Salário</label>
+                <p-inputNumber inputId="integeronly" formControlName="value" />
+            </form>
+            <button pButton pRipple label="Salvar" class="p-button-success">
+            </button>
+        </p-card>
+    </app-default-layout>
+</main>
