@@ -6,9 +6,10 @@ import { PaginatorModule } from 'primeng/paginator';
 import { InputTextModule } from 'primeng/inputtext';
 import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
-import { AddFuncionarioComponent } from '../../components/add-funcionario/add-funcionario.component';
+
 import { AddButtonComponent } from '../../components/add-button/add-button.component';
 import { Funcionario, FuncionarioService } from '../../services/crud.service';
+import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 
 @Component({
   selector: 'app-employee-list',
@@ -21,7 +22,7 @@ import { Funcionario, FuncionarioService } from '../../services/crud.service';
     ButtonModule,
     InputTextModule,
     CalendarModule,
-    AddFuncionarioComponent,
+    AddEmployeeComponent,
     AddButtonComponent,
   ],
   templateUrl: './employee-list.component.html',
