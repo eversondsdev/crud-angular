@@ -23,7 +23,7 @@
                 <label for="number">Salário</label>
                 <p-inputNumber id="number" inputId="integeronly" formControlName="salario" />
             </form>
-            <button pButton pRipple label="Cadastrar" class="p-button-success" [disabled]="addEmployee.invalid" (click)="cadastar()">
+            <button pButton pRipple label="Cadastrar" class="p-button-success" [disabled]="addEmployee.invalid" (click)="onSubmit()">
             </button>
         </p-card>
     </app-default-layout>

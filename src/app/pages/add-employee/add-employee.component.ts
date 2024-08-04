@@ -7,14 +7,15 @@ import { CalendarModule } from 'primeng/calendar';
 import { InputMaskModule } from 'primeng/inputmask';
 import { ButtonModule } from 'primeng/button';
 import {
+  FormBuilder,
   FormControl,
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MessagesModule } from 'primeng/messages';
 import { Funcionario, FuncionarioService } from '../../services/crud.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-employee',
@@ -29,17 +30,21 @@ import { Funcionario, FuncionarioService } from '../../services/crud.service';
     ButtonModule,
     FormsModule,
     ReactiveFormsModule,
-    MessagesModule,
   ],
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.css',
 })
-export class AddEmployeeComponent {
+export class AddEmployeeComponent implements OnInit {
   addEmployee!: FormGroup;
+  funcionarioIdAtual: number | null = null;
 
-  funcionario: Funcionario[] = [];
-  constructor() {
-    this.addEmployee = new FormGroup({
+  constructor(
+    private fb: FormBuilder,
+    private funcionarioService: FuncionarioService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {
+    this.addEmployee = this.fb.group({
       nome: new FormControl('', [Validators.required, Validators.minLength(3)]),
       telefone: new FormControl('', [
         Validators.required,
@@ -49,14 +54,46 @@ export class AddEmployeeComponent {
       salario: new FormControl('', [Validators.required]),
     });
   }
+  ngOnInit(): void {
+    this.route.params.subscribe((params) => {
+      if (params['id']) {
+        this.funcionarioIdAtual = +params['id'];
+        this.funcionarioService
+          .getFuncionario(this.funcionarioIdAtual)
+          .subscribe((funcionario) => {
+            if (funcionario) {
+              this.addEmployee.patchValue(funcionario);
+            }
+          });
+      }
+    });
+  }
+
+  onSubmit(): void {
+    if (this.addEmployee.valid) {
+      const funcionario: Funcionario = {
+        ...this.addEmployee.value,
+        id: this.funcionarioIdAtual,
+      };
+      if (this.funcionarioIdAtual) {
+        // Atualiza funcionário existente
+        this.funcionarioService.updateFuncionario(funcionario);
+      } else {
+        // Adiciona novo funcionário
+        this.funcionarioService.addFuncionario(funcionario);
+      }
+      // Redirecionar para a lista de funcionários
+      this.router.navigate(['/']);
+    }
+  }
 
   // Função Cadastrar
-  cadastar() {
-    this.funcionario.push(this.addEmployee.value as Funcionario);
+  //cadastar() {
+  //   this.funcionario.push(this.addEmployee.value as Funcionario);
 
-    // Limpar os campos dos inputs
-    this.addEmployee.reset();
+  // Limpar os campos dos inputs
+  //  this.addEmployee.reset();
 
-    //console.table(this.funcionario);
-  }
+  //console.table(this.funcionario);
+  // }
 }

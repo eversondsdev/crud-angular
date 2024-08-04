@@ -10,6 +10,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { AddButtonComponent } from '../../components/add-button/add-button.component';
 import { Funcionario, FuncionarioService } from '../../services/crud.service';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-employee-list',
@@ -37,7 +38,10 @@ export class EmployeeListComponent implements OnInit {
   page: number = 1;
   pageSize: number = 5;
 
-  constructor(private funcionarioService: FuncionarioService) {}
+  constructor(
+    private funcionarioService: FuncionarioService,
+    private router: Router
+  ) {}
   //metodo de ciclo de vida.
   ngOnInit(): void {
     this.carregarFuncionarios(); // carrega os dados ao iniciar a aplicação.
@@ -48,5 +52,13 @@ export class EmployeeListComponent implements OnInit {
     this.funcionarioService.getFuncionarios().subscribe((data) => {
       this.funcionarios = data;
     });
+  }
+
+  deleteFuncionario(id: number): void {
+    this.funcionarioService.deleteFuncionario(id);
+    this.carregarFuncionarios();
+  }
+  editFuncionario(id: number): void {
+    this.router.navigate(['/adicionarfuncionario', id]);
   }
 }

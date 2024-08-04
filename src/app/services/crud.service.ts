@@ -87,11 +87,34 @@ export class FuncionarioService {
       salario: 3500,
     },
   ];
-
+  private nextId = 1;
   constructor() {}
   // Médoto para obter a lista, e retorna um Observable.
   // Observable emite os dados de forma assincrona.
   getFuncionarios(): Observable<Funcionario[]> {
     return of(this.funcionarios);
+  }
+  getFuncionario(id: number): Observable<Funcionario | undefined> {
+    return of(this.funcionarios.find((funcionario) => funcionario.id === id));
+  }
+
+  addFuncionario(funcionario: Funcionario): void {
+    funcionario.id = this.nextId++;
+    this.funcionarios.push(funcionario);
+  }
+
+  updateFuncionario(updatedFuncionario: Funcionario): void {
+    const index = this.funcionarios.findIndex(
+      (funcionario) => funcionario.id === updatedFuncionario.id
+    );
+    if (index !== -1) {
+      this.funcionarios[index] = updatedFuncionario;
+    }
+  }
+
+  deleteFuncionario(id: number): void {
+    this.funcionarios = this.funcionarios.filter(
+      (funcionario) => funcionario.id !== id
+    );
   }
 }
