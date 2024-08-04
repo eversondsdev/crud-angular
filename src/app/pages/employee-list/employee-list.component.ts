@@ -54,11 +54,16 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
-  deleteFuncionario(id: number): void {
-    this.funcionarioService.deleteFuncionario(id);
-    this.carregarFuncionarios();
+  deletarFuncionario(id: number): void {
+    const confirm = window.confirm(
+      'Você tem certeza que deseja excluir este funcionário?'
+    );
+    if (confirm) {
+      this.funcionarioService.deleteFuncionario(id);
+      this.carregarFuncionarios();
+    }
   }
-  editFuncionario(id: number): void {
+  editarFuncionario(id: number): void {
     this.router.navigate(['/adicionarfuncionario', id]);
   }
 }

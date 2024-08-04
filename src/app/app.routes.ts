@@ -10,6 +10,8 @@ export const routes: Routes = [
     path: 'adicionarfuncionario',
     component: AddEmployeeComponent,
   },
+  { path: 'adicionarfuncionario/:id', component: AddEmployeeComponent },
+  { path: '', redirectTo: '/', pathMatch: 'full' },
 ];
 
 @NgModule({

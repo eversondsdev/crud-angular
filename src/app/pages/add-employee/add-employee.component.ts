@@ -86,6 +86,9 @@ export class AddEmployeeComponent implements OnInit {
       this.router.navigate(['/']);
     }
   }
+  cancelar(): void {
+    this.router.navigate(['/']);
+  }
 
   // Função Cadastrar
   //cadastar() {

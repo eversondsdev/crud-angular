@@ -87,7 +87,7 @@ export class FuncionarioService {
       salario: 3500,
     },
   ];
-  private nextId = 1;
+  private proximoId = this.funcionarios.length + 1;
   constructor() {}
   // Médoto para obter a lista, e retorna um Observable.
   // Observable emite os dados de forma assincrona.
@@ -99,7 +99,7 @@ export class FuncionarioService {
   }
 
   addFuncionario(funcionario: Funcionario): void {
-    funcionario.id = this.nextId++;
+    funcionario.id = this.proximoId++;
     this.funcionarios.push(funcionario);
   }
 

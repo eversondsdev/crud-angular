@@ -1,4 +1,4 @@
 <div>
-    <p-button label="editar" [text]="true" />
-    <p-button label="excluir" [text]="true" severity="danger" />
+    <p-button label="editar" [text]="true" (click)="editarFuncionario()" />
+    <p-button label="excluir" [text]="true" severity="danger" (click)="deletarFuncionario()" />
 </div>
