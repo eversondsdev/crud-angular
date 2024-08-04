@@ -98,21 +98,21 @@ export class FuncionarioService {
     return of(this.funcionarios.find((funcionario) => funcionario.id === id));
   }
 
-  addFuncionario(funcionario: Funcionario): void {
+  adicionarFuncionario(funcionario: Funcionario): void {
     funcionario.id = this.proximoId++;
     this.funcionarios.push(funcionario);
   }
 
-  updateFuncionario(updatedFuncionario: Funcionario): void {
+  atualizarFuncionario(atualizaFuncionario: Funcionario): void {
     const index = this.funcionarios.findIndex(
-      (funcionario) => funcionario.id === updatedFuncionario.id
+      (funcionario) => funcionario.id === atualizaFuncionario.id
     );
     if (index !== -1) {
-      this.funcionarios[index] = updatedFuncionario;
+      this.funcionarios[index] = atualizaFuncionario;
     }
   }
 
-  deleteFuncionario(id: number): void {
+  deletarFuncionario(id: number): void {
     this.funcionarios = this.funcionarios.filter(
       (funcionario) => funcionario.id !== id
     );

@@ -13,6 +13,7 @@ import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 import { Router } from '@angular/router';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmationService } from 'primeng/api';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-employee-list',
@@ -29,7 +30,7 @@ import { ConfirmationService } from 'primeng/api';
     AddButtonComponent,
     ConfirmDialogModule,
   ],
-  providers: [ConfirmationService],
+  providers: [ConfirmationService, DatePipe, CurrencyPipe],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css',
 })
@@ -45,29 +46,28 @@ export class EmployeeListComponent implements OnInit {
   constructor(
     private funcionarioService: FuncionarioService,
     private router: Router,
-    private confirmationService: ConfirmationService
+    private confirmationService: ConfirmationService,
+    private datePipe: DatePipe,
+    private currencyPipe: CurrencyPipe
   ) {}
   //metodo de ciclo de vida.
   ngOnInit(): void {
     this.carregarFuncionarios(); // carrega os dados ao iniciar a aplicação.
   }
-
+  // Formata a data
+  getFormatarData(date: Date): string {
+    return this.datePipe.transform(date, 'yyyy-MM-dd') || '';
+  }
+  // Formata o salario.
+  getFormatarSalario(salario: number): string {
+    return this.currencyPipe.transform(salario, 'R$ ', 'symbol', '1.2-2') || '';
+  }
   // Função que pega os dados do servico.
   carregarFuncionarios(): void {
     this.funcionarioService.getFuncionarios().subscribe((data) => {
       this.funcionarios = data;
     });
   }
-
-  /* deletarFuncionario(id: number): void {
-    const confirm = window.confirm(
-      'Você tem certeza que deseja excluir este funcionário?'
-    );
-    if (confirm) {
-      this.funcionarioService.deleteFuncionario(id);
-      this.carregarFuncionarios();
-    }
-  } */
 
   deletarFuncionario(id: number): void {
     this.confirmationService.confirm({
@@ -77,7 +77,7 @@ export class EmployeeListComponent implements OnInit {
       acceptLabel: 'Excluir',
       rejectLabel: 'Cancelar',
       accept: () => {
-        this.funcionarioService.deleteFuncionario(id);
+        this.funcionarioService.deletarFuncionario(id);
         this.carregarFuncionarios();
       },
     });

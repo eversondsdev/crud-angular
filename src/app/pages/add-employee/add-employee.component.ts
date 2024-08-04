@@ -16,6 +16,9 @@ import {
 } from '@angular/forms';
 import { Funcionario, FuncionarioService } from '../../services/crud.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-add-employee',
@@ -30,7 +33,9 @@ import { ActivatedRoute, Router } from '@angular/router';
     ButtonModule,
     FormsModule,
     ReactiveFormsModule,
+    ToastModule,
   ],
+  providers: [MessageService],
   templateUrl: './add-employee.component.html',
   styleUrl: './add-employee.component.css',
 })
@@ -42,16 +47,14 @@ export class AddEmployeeComponent implements OnInit {
     private fb: FormBuilder,
     private funcionarioService: FuncionarioService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private messageService: MessageService
   ) {
     this.addEmployee = this.fb.group({
       nome: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      telefone: new FormControl('', [
-        Validators.required,
-        Validators.minLength(11),
-      ]),
+      telefone: new FormControl('', [Validators.required]),
       data_nascimento: new FormControl('', [Validators.required]),
-      salario: new FormControl('', [Validators.required]),
+      salario: new FormControl('', [Validators.required, Validators.min(0)]),
     });
   }
   ngOnInit(): void {
@@ -77,26 +80,17 @@ export class AddEmployeeComponent implements OnInit {
       };
       if (this.funcionarioIdAtual) {
         // Atualiza funcionário existente
-        this.funcionarioService.updateFuncionario(funcionario);
+        this.funcionarioService.atualizarFuncionario(funcionario);
       } else {
         // Adiciona novo funcionário
-        this.funcionarioService.addFuncionario(funcionario);
+        this.funcionarioService.adicionarFuncionario(funcionario);
       }
       // Redirecionar para a lista de funcionários
       this.router.navigate(['/']);
     }
   }
+
   cancelar(): void {
     this.router.navigate(['/']);
   }
-
-  // Função Cadastrar
-  //cadastar() {
-  //   this.funcionario.push(this.addEmployee.value as Funcionario);
-
-  // Limpar os campos dos inputs
-  //  this.addEmployee.reset();
-
-  //console.table(this.funcionario);
-  // }
 }

@@ -21,8 +21,8 @@
                     <td>{{funcionario.id}}</td>
                     <td>{{funcionario.nome}}</td>
                     <td>{{funcionario.telefone}}</td>
-                    <td>{{funcionario.data_nascimento}}</td>
-                    <td>{{funcionario.salario}}</td>
+                    <td>{{getFormatarData(funcionario.data_nascimento) }}</td>
+                    <td>{{getFormatarSalario(funcionario.salario)}}</td>
                     <td>
                         <app-action-buttons [funcionarioId]="funcionario.id" (editar)="editarFuncionario($event)" (deletar)="deletarFuncionario($event)">
                         </app-action-buttons>
