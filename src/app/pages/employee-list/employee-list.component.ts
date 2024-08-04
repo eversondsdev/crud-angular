@@ -11,6 +11,8 @@ import { AddButtonComponent } from '../../components/add-button/add-button.compo
 import { Funcionario, FuncionarioService } from '../../services/crud.service';
 import { AddEmployeeComponent } from '../add-employee/add-employee.component';
 import { Router } from '@angular/router';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-employee-list',
@@ -25,7 +27,9 @@ import { Router } from '@angular/router';
     CalendarModule,
     AddEmployeeComponent,
     AddButtonComponent,
+    ConfirmDialogModule,
   ],
+  providers: [ConfirmationService],
   templateUrl: './employee-list.component.html',
   styleUrl: './employee-list.component.css',
 })
@@ -40,7 +44,8 @@ export class EmployeeListComponent implements OnInit {
 
   constructor(
     private funcionarioService: FuncionarioService,
-    private router: Router
+    private router: Router,
+    private confirmationService: ConfirmationService
   ) {}
   //metodo de ciclo de vida.
   ngOnInit(): void {
@@ -54,7 +59,7 @@ export class EmployeeListComponent implements OnInit {
     });
   }
 
-  deletarFuncionario(id: number): void {
+  /* deletarFuncionario(id: number): void {
     const confirm = window.confirm(
       'Você tem certeza que deseja excluir este funcionário?'
     );
@@ -62,7 +67,22 @@ export class EmployeeListComponent implements OnInit {
       this.funcionarioService.deleteFuncionario(id);
       this.carregarFuncionarios();
     }
+  } */
+
+  deletarFuncionario(id: number): void {
+    this.confirmationService.confirm({
+      message: 'Você tem certeza que deseja excluir este funcionário?',
+      header: 'Confirmação',
+      icon: 'pi pi-info-circle',
+      acceptLabel: 'Excluir',
+      rejectLabel: 'Cancelar',
+      accept: () => {
+        this.funcionarioService.deleteFuncionario(id);
+        this.carregarFuncionarios();
+      },
+    });
   }
+
   editarFuncionario(id: number): void {
     this.router.navigate(['/adicionarfuncionario', id]);
   }

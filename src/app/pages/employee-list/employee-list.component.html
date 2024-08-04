@@ -3,6 +3,7 @@
         <app-default-layout title="Lista de Funcionários"></app-default-layout>
         <app-add-button></app-add-button>
     </div>
+    <p-confirmDialog></p-confirmDialog>
     <div class="funcionario-list">
         <p-table [value]="funcionarios" [paginator]="true" [rows]="pageSize" [first]="(page - 1) * pageSize" (onPage)="paginacao($event)">
             <ng-template pTemplate="header">
